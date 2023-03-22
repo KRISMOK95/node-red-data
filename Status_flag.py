@@ -1,11 +1,4 @@
-from main import received_data
-def process_received_data():
-    global received_data  # Use the global variable
-    if received_data is not None:
-        # Do something with the received data
-        print(f"Received data: {received_data}")
-    else:
-        print("No data received yet")
+
 
 print(received_data)
 
