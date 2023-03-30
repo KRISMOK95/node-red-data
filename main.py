@@ -24,6 +24,8 @@ def on_message(client, userdata, message):
     print(f"Data type: {type(data)}")
     received_data = data
 
+    client.publish("academics/IoT/data", payload=data)
+
     circulating_fluid_discharge_temperature = received_data[0]
     circulating_fluid_discharge_pressure = received_data[2]
     electric_resistivity_and_conductivity_circulating_fluid = received_data[3]
@@ -141,7 +143,7 @@ def on_message(client, userdata, message):
 # Set up the MQTT client and connect to the broker
 client = mqtt.Client()
 client.connect("test.mosquitto.org", 1883)
-
+print("Connected to the MQTT broker")
 # Set up the callback function to be called when a message is received
 client.on_message = on_message
 
@@ -149,6 +151,10 @@ client.on_message = on_message
 client.subscribe("academics/IoT")
 
 # Start the MQTT client loop to listen for incoming messages
-client.loop_forever()
+client.loop_start()
+
+# Keep the script running
+while True:
+    time.sleep(1)
 
 print("Done")
