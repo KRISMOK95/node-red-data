@@ -24,7 +24,9 @@ def on_message(client, userdata, message):
     print(f"Data type: {type(data)}")
     received_data = data
 
-    client.publish("academics/IoT/data", payload=data)
+    data_str = str(data)
+
+    client.publish("academics/IoT/data", payload=data_str)
 
     circulating_fluid_discharge_temperature = received_data[0]
     circulating_fluid_discharge_pressure = received_data[2]
@@ -35,7 +37,7 @@ def on_message(client, userdata, message):
     alarm_flag_3 = received_data[7]
     status_flag_2 = received_data[9]
     circulating_fluid_set_temperature = received_data[11]
-    print(f" main: {received_data}")
+    print(f" row data list: {received_data}")
 
     ####### status flag ###########
 
@@ -149,6 +151,7 @@ client.on_message = on_message
 
 # Subscribe to the "academics/IoT" topic
 client.subscribe("academics/IoT")
+client.publish("AAS/data", received_data)
 
 # Start the MQTT client loop to listen for incoming messages
 client.loop_start()
